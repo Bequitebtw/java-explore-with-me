@@ -60,7 +60,9 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <goals><goal>check</goal></goals>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
                             <phase>compile</phase>
                         </execution>
                     </executions>
@@ -68,6 +70,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
+                            <version>10.12.2</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -81,7 +84,9 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <goals><goal>check</goal></goals>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
                         </execution>
                     </executions>
                 </plugin>
@@ -95,11 +100,15 @@
                     <executions>
                         <execution>
                             <id>jacoco-initialize</id>
-                            <goals><goal>prepare-agent</goal></goals>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
                         </execution>
                         <execution>
                             <id>jacoco-check</id>
-                            <goals><goal>check</goal></goals>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
                             <configuration>
                                 <rules>
                                     <rule>
@@ -143,7 +152,9 @@
                         <execution>
                             <id>jacoco-site</id>
                             <phase>install</phase>
-                            <goals><goal>report</goal></goals>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
                         </execution>
                     </executions>
                 </plugin>
@@ -176,7 +187,9 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <goals><goal>repackage</goal></goals>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
                         </execution>
                     </executions>
                 </plugin>
