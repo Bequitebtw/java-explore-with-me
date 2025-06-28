@@ -23,7 +23,6 @@ public class StatsClient extends BaseClient {
         );
     }
 
-
     public ResponseEntity<Object> createHit(EndpointHitRequest hit) {
         return post("/hit", hit);
     }
