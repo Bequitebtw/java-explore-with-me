@@ -16,6 +16,11 @@ public class StatsController {
 
     private final StatsService statsService;
 
+    @GetMapping("da")
+    public String test() {
+        return "it`s working";
+    }
+
     @PostMapping("/hit")
     public void saveHit(@RequestBody @Valid EndpointHit hit) {
         statsService.saveHit(hit);
