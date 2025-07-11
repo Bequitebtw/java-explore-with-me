@@ -167,6 +167,10 @@ public class EventServiceImpl implements EventService {
                                            Integer from,
                                            Integer size) {
 
+        if (rangeStart != null && rangeEnd != null && rangeStart.isAfter(rangeEnd)) {
+            throw new IllegalArgumentException("rangeStart must be before rangeEnd");
+        }
+
         Specification<Event> spec = EventSpecifications.withText(text)
                 .and(EventSpecifications.withCategories(categories))
                 .and(EventSpecifications.withPaid(paid))

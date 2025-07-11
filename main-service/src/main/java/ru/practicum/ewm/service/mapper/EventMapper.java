@@ -90,7 +90,7 @@ public class EventMapper {
         eventFullDto.setParticipantLimit(event.getParticipantLimit());
         eventFullDto.setPublishedOn(event.getPublishedOn());
         eventFullDto.setRequestModeration(event.getRequestModeration());
-        eventFullDto.setEventStatus(event.getState());
+        eventFullDto.setState(event.getState());
         eventFullDto.setTitle(event.getTitle());
         eventFullDto.setViews(event.getViews());
         return eventFullDto;

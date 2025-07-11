@@ -30,5 +30,5 @@ public class Request {
     private User requester;
     @Column
     @Enumerated(EnumType.STRING)
-    private RequestStatus requestStatus = RequestStatus.PENDING;
+    private RequestStatus status = RequestStatus.PENDING;
 }

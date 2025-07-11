@@ -12,6 +12,18 @@ import ru.practicum.ewm.dto.ApiError;
 @RestControllerAdvice
 public class ExceptionController {
 
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+        ApiError error = new ApiError(
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                "Incorrectly made request.",
+                ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<?> handleDataIntegrityViolation(NumberFormatException ex) {
         ApiError error = new ApiError(
@@ -45,6 +57,8 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+
+    //Изменение события добавленного текущим пользователем. Изменение лимита участников на отрицательное значение 400
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException ex) {
         ApiError error = new ApiError(

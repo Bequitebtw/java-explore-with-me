@@ -10,7 +10,7 @@ public class RequestMapper {
         requestDto.setRequester(request.getRequester().getId());
         requestDto.setEvent(request.getEvent().getId());
         requestDto.setCreated(request.getCreated());
-        requestDto.setRequestStatus(request.getRequestStatus());
+        requestDto.setStatus(request.getStatus());
         return requestDto;
     }
 }

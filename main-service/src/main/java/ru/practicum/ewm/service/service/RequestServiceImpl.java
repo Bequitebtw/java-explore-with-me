@@ -8,9 +8,11 @@ import ru.practicum.ewm.service.dto.EventRequestStatusUpdateResult;
 import ru.practicum.ewm.service.dto.RequestDto;
 import ru.practicum.ewm.service.exception.*;
 import ru.practicum.ewm.service.mapper.RequestMapper;
-import ru.practicum.ewm.service.model.*;
-import ru.practicum.ewm.service.model.enums.RequestStateAction;
+import ru.practicum.ewm.service.model.Event;
+import ru.practicum.ewm.service.model.Request;
+import ru.practicum.ewm.service.model.User;
 import ru.practicum.ewm.service.model.enums.EventStatus;
+import ru.practicum.ewm.service.model.enums.RequestStateAction;
 import ru.practicum.ewm.service.model.enums.RequestStatus;
 import ru.practicum.ewm.service.repository.EventRepository;
 import ru.practicum.ewm.service.repository.RequestRepository;
@@ -54,8 +56,8 @@ public class RequestServiceImpl implements RequestService {
         Request request = new Request();
 
 
-        if (!event.getRequestModeration()) {
-            request.setRequestStatus(RequestStatus.CONFIRMED);
+        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
+            request.setStatus(RequestStatus.CONFIRMED);
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
         }
         request.setRequester(user);
@@ -68,7 +70,7 @@ public class RequestServiceImpl implements RequestService {
     public RequestDto cancelRequest(Integer userId, Integer requestId) {
         Request request = requestRepository.findById(requestId).orElseThrow(() -> new RequestNotFoundException(requestId));
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        request.setRequestStatus(RequestStatus.REJECTED);
+        request.setStatus(RequestStatus.REJECTED);
         return RequestMapper.mapToRequestDto(requestRepository.save(request));
     }
 
@@ -107,7 +109,7 @@ public class RequestServiceImpl implements RequestService {
                 .collect(Collectors.toSet());
 
         boolean allRequestsBelongToEvent = requestList.stream()
-                .allMatch(req -> eventRequestIds.contains(req.getId()) && req.getRequestStatus() == RequestStatus.PENDING);
+                .allMatch(req -> eventRequestIds.contains(req.getId()) && req.getStatus() == RequestStatus.PENDING);
 
         if (!allRequestsBelongToEvent) {
             throw new RequestConflictException("Заявка уже принята или отклонена, либо не относится к событию с id = " + eventId);
@@ -125,13 +127,13 @@ public class RequestServiceImpl implements RequestService {
 
         //если все id можно одобрить или отклонить
         if (request.getStatus().equals(RequestStateAction.REJECTED)) {
-            requestList.forEach(elem -> elem.setRequestStatus(RequestStatus.REJECTED));
+            requestList.forEach(elem -> elem.setStatus(RequestStatus.REJECTED));
             rejectedRequests = requestList;
             requestRepository.saveAll(requestList);
         } else if (request.getRequestIds().size() + event.getConfirmedRequests() <= event.getParticipantLimit()
                 && request.getStatus().equals(RequestStateAction.CONFIRMED)) {
 
-            requestList.forEach(elem -> elem.setRequestStatus(RequestStatus.CONFIRMED));
+            requestList.forEach(elem -> elem.setStatus(RequestStatus.CONFIRMED));
             event.setConfirmedRequests(event.getConfirmedRequests() + requestList.size());
             confirmedRequests = requestList;
             requestRepository.saveAll(requestList);
@@ -139,11 +141,11 @@ public class RequestServiceImpl implements RequestService {
             //если несколько id нужно принять, а несколько отклонить
             for (Request req : requestList) {
                 if (event.getParticipantLimit() > event.getConfirmedRequests()) {
-                    req.setRequestStatus(RequestStatus.CONFIRMED);
+                    req.setStatus(RequestStatus.CONFIRMED);
                     confirmedRequests.add(req);
                     event.setConfirmedRequests(event.getConfirmedRequests() + 1);
                 } else {
-                    req.setRequestStatus(RequestStatus.REJECTED);
+                    req.setStatus(RequestStatus.REJECTED);
                     rejectedRequests.add(req);
                 }
             }

@@ -28,7 +28,7 @@ public class EventFullDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;
     private Boolean requestModeration;
-    private EventStatus eventStatus;
+    private EventStatus state;
     private String title;
     private Integer views;
 }
