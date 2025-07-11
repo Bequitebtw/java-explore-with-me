@@ -32,7 +32,7 @@ public class StatsServiceImpl implements StatsService {
         LocalDateTime endTime = LocalDateTime.parse(end, formatter);
         List<ViewStatsProjection> projections;
         if (startTime.isAfter(endTime)) {
-            throw new IllegalArgumentException("время начала не может быть после времени окончания");
+            return null;
         }
         if (unique) {
             projections = statsRepository.findUniqueStatsProjection(startTime, endTime, uris);
