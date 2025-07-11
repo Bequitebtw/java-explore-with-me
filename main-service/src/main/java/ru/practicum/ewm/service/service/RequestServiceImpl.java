@@ -70,9 +70,10 @@ public class RequestServiceImpl implements RequestService {
     public RequestDto cancelRequest(Integer userId, Integer requestId) {
         Request request = requestRepository.findById(requestId).orElseThrow(() -> new RequestNotFoundException(requestId));
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        request.setStatus(RequestStatus.REJECTED);
+        request.setStatus(RequestStatus.CANCELED);
         return RequestMapper.mapToRequestDto(requestRepository.save(request));
     }
+
 
     @Transactional(readOnly = true)
     @Override

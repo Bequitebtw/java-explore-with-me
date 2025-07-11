@@ -1,7 +1,6 @@
 package ru.practicum.ewm.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -15,11 +14,11 @@ import java.time.LocalDateTime;
 @Setter
 public class UpdateEventRequest {
     @Size(min = 20, max = 2000)
-    @Pattern(regexp = "^\\s*\\S.*", message = "must not be blank if provided")
+//    @Pattern(regexp = "^\\s*\\S.*", message = "must not be blank if provided")
     private String annotation;
     private Integer category;
     @Size(min = 20, max = 7000)
-    @Pattern(regexp = "^\\s*\\S.*", message = "must not be blank if provided")
+//    @Pattern(regexp = "^\\s*\\S.*", message = "must not be blank if provided")
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
