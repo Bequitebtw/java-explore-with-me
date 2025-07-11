@@ -22,7 +22,7 @@ public class EventController {
     private final RequestUtils requestUtils;
     private final StatsClient statsClient;
 
-    @PostMapping("/{userId}/event")
+    @PostMapping("/{userId}/events")
     public EventFullDto createEvent(@RequestBody @Valid NewEventDto newEventDto, @PathVariable Integer userId, HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));
         return eventService.createEvent(newEventDto, userId);
