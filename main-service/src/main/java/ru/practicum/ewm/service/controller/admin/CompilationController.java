@@ -9,6 +9,7 @@ import ru.practicum.ewm.client.StatsClient;
 import ru.practicum.ewm.dto.RequestUtils;
 import ru.practicum.ewm.service.dto.CompilationDto;
 import ru.practicum.ewm.service.dto.CompilationRequest;
+import ru.practicum.ewm.service.dto.UpdateCompilationRequest;
 import ru.practicum.ewm.service.service.CompilationService;
 
 @RestController("adminCompilationController")
@@ -35,7 +36,7 @@ public class CompilationController {
     }
 
     @PatchMapping("/compilations/{compId}")
-    public CompilationDto updateCompilationById(@RequestBody @Valid CompilationRequest compilationRequest,
+    public CompilationDto updateCompilationById(@RequestBody @Valid UpdateCompilationRequest compilationRequest,
                                                 @PathVariable Integer compId,
                                                 HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));

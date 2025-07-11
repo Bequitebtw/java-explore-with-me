@@ -15,7 +15,7 @@ public interface EventService {
 
     EventFullDto editEvent(EventEditRequest event, Integer eventId, Integer userId);
 
-    EventFullDto findEventById(Integer eventId);
+    EventFullDto findEventById(Integer eventId,String ip);
 
     EventFullDto updateEvent(UpdateEventRequest request, Integer eventId);
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.service.dto.CompilationDto;
 import ru.practicum.ewm.service.dto.CompilationRequest;
+import ru.practicum.ewm.service.dto.UpdateCompilationRequest;
 import ru.practicum.ewm.service.exception.CompilationNotFoundException;
 import ru.practicum.ewm.service.mapper.CompilationMapper;
 import ru.practicum.ewm.service.model.Compilation;
@@ -42,12 +43,20 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Transactional
     @Override
-    public CompilationDto updateCompilations(Integer compId, CompilationRequest compilationRequest) {
+    public CompilationDto updateCompilations(Integer compId, UpdateCompilationRequest compilationRequest) {
         Compilation compilation = compilationRepository.findById(compId).orElseThrow(() -> new CompilationNotFoundException(compId));
-        List<Event> events = eventRepository.findByIdIn(compilationRequest.getEvents());
-        compilation.setEvents(events);
-        compilation.setPinned(compilationRequest.getPinned());
-        compilation.setTitle(compilationRequest.getTitle());
+        if (compilationRequest.getEvents() != null) {
+            List<Event> events = eventRepository.findByIdIn(compilationRequest.getEvents());
+            compilation.setEvents(events);
+        }
+
+        if (compilationRequest.getPinned() != null) {
+            compilation.setPinned(compilationRequest.getPinned());
+        }
+        if (compilationRequest.getTitle() != null) {
+            compilation.setTitle(compilationRequest.getTitle());
+        }
+
         return CompilationMapper.mapToCompilation(compilationRepository.save(compilation));
     }
 

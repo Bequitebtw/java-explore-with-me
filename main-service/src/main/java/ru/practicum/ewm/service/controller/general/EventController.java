@@ -23,7 +23,7 @@ public class EventController {
     @GetMapping("/{id}")
     public EventFullDto findEventById(@PathVariable Integer id, HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));
-        return eventService.findEventById(id);
+        return eventService.findEventById(id, request.getRemoteAddr());
     }
 
     @GetMapping

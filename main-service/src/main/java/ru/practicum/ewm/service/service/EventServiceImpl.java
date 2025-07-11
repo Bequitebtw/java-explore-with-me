@@ -13,11 +13,14 @@ import ru.practicum.ewm.service.filters.EventSpecifications;
 import ru.practicum.ewm.service.mapper.EventMapper;
 import ru.practicum.ewm.service.model.Category;
 import ru.practicum.ewm.service.model.Event;
+import ru.practicum.ewm.service.model.EventView;
 import ru.practicum.ewm.service.model.User;
 import ru.practicum.ewm.service.model.enums.EventStateAction;
+import ru.practicum.ewm.service.model.enums.EventStateActionUser;
 import ru.practicum.ewm.service.model.enums.EventStatus;
 import ru.practicum.ewm.service.repository.CategoryRepository;
 import ru.practicum.ewm.service.repository.EventRepository;
+import ru.practicum.ewm.service.repository.EventViewRepository;
 import ru.practicum.ewm.service.repository.UserRepository;
 
 import java.time.LocalDateTime;
@@ -30,6 +33,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final EventViewRepository eventViewRepository;
 
     @Transactional
     @Override
@@ -87,19 +91,31 @@ public class EventServiceImpl implements EventService {
             }
         }
         if (request.getStateAction() != null) {
-            event.setState(EventStatus.CANCELED);
+            if(request.getStateAction().equals(EventStateActionUser.CANCEL_REVIEW)){
+                event.setState(EventStatus.CANCELED);
+            }
+            if(request.getStateAction().equals(EventStateActionUser.SEND_TO_REVIEW)) {
+                event.setState(EventStatus.PENDING);
+            }
         }
         return EventMapper.mapToEventFullDto(eventRepository.save(EventMapper.updateEvent(request, event)));
     }
 
     @Transactional
     @Override
-    public EventFullDto findEventById(Integer eventId) {
+    public EventFullDto findEventById(Integer eventId, String ip) {
         Event event = eventRepository.findByIdAndState(eventId, EventStatus.PUBLISHED);
         if (event == null) {
             throw new EventNotFoundException(eventId);
         }
-        event.setViews(event.getViews() + 1);
+        if (!eventViewRepository.existsByIpAndEventId(ip, eventId)) {
+            EventView eventView = new EventView();
+            eventView.setIp(ip);
+            eventView.setEventId(eventId);
+            eventViewRepository.save(eventView);
+            event.setViews(event.getViews() + 1);
+        }
+
         eventRepository.save(event);
         return EventMapper.mapToEventFullDto(event);
     }
