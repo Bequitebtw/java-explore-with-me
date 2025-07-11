@@ -22,6 +22,7 @@ public class UserController {
     private final RequestUtils requestUtils;
     private final UserService userService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user, HttpServletRequest request) {
         log.info("Создание пользователя: {}", user);
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> findUsers(@RequestParam List<Integer> ids,
+    public List<User> findUsers(@RequestParam(required = false) List<Integer> ids,
                                 @RequestParam(name = "from", defaultValue = "0") Integer from,
                                 @RequestParam(name = "size", defaultValue = "10") Integer size,
                                 HttpServletRequest request) {

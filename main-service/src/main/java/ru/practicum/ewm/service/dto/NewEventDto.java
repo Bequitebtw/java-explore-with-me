@@ -1,6 +1,7 @@
 package ru.practicum.ewm.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -14,11 +15,13 @@ import java.time.LocalDateTime;
 @Setter
 public class NewEventDto {
     @NotNull
+    @NotBlank
     @Size(min = 20, max = 2000)
     private String annotation;
     @NotNull
     private Integer category;
     @NotNull
+    @NotBlank
     @Size(min = 20, max = 7000)
     private String description;
     @NotNull

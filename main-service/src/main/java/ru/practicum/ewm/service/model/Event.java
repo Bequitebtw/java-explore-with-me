@@ -14,7 +14,7 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
+    @Column(length = 2000)
     private String annotation;
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "category_id")
@@ -24,7 +24,7 @@ public class Event {
     @Column(name = "created_on")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdOn = LocalDateTime.now();
-    @Column
+    @Column(length = 7000)
     private String description;
     @Column(name = "event_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

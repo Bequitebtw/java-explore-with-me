@@ -18,8 +18,9 @@ public class CategoryController {
     private final StatsClient statsClient;
     private final CategoryService categoryService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/categories")
-    public Category saveCategory(@Valid @RequestBody Category category, HttpServletRequest request) {
+    public Category createCategory(@Valid @RequestBody Category category, HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));
         return categoryService.save(category);
     }
