@@ -11,7 +11,11 @@ import ru.practicum.ewm.service.dto.*;
 import ru.practicum.ewm.service.exception.*;
 import ru.practicum.ewm.service.filters.EventSpecifications;
 import ru.practicum.ewm.service.mapper.EventMapper;
-import ru.practicum.ewm.service.model.*;
+import ru.practicum.ewm.service.model.Category;
+import ru.practicum.ewm.service.model.Event;
+import ru.practicum.ewm.service.model.User;
+import ru.practicum.ewm.service.model.enums.EventStateAction;
+import ru.practicum.ewm.service.model.enums.EventStatus;
 import ru.practicum.ewm.service.repository.CategoryRepository;
 import ru.practicum.ewm.service.repository.EventRepository;
 import ru.practicum.ewm.service.repository.UserRepository;
@@ -68,7 +72,7 @@ public class EventServiceImpl implements EventService {
         if (event.getInitiator().getId() != userId) {
             throw new AccessUserException(userId, eventId);
         }
-        if (event.getState().equals(State.PUBLISHED)) {
+        if (event.getState().equals(EventStatus.PUBLISHED)) {
             throw new IncorrectStateException(event.getState().toString());
         }
         if (request.getCategory() != null) {
@@ -82,14 +86,16 @@ public class EventServiceImpl implements EventService {
                 event.setEventDate(request.getEventDate());
             }
         }
-
+        if (request.getStateAction() != null) {
+            event.setState(EventStatus.CANCELED);
+        }
         return EventMapper.mapToEventFullDto(eventRepository.save(EventMapper.updateEvent(request, event)));
     }
 
     @Transactional
     @Override
     public EventFullDto findEventById(Integer eventId) {
-        Event event = eventRepository.findByIdAndState(eventId, State.PUBLISHED);
+        Event event = eventRepository.findByIdAndState(eventId, EventStatus.PUBLISHED);
         if (event == null) {
             throw new EventNotFoundException(eventId);
         }
@@ -106,7 +112,7 @@ public class EventServiceImpl implements EventService {
             Category category = categoryRepository.findById(request.getCategory()).orElseThrow(() -> new CategoryNotFoundException(request.getCategory()));
             event.setCategory(category);
         }
-        if (event.getState() != State.PENDING) {
+        if (event.getState() != EventStatus.PENDING) {
             throw new IncorrectStateException(event.getState().toString());
         }
         if (request.getEventDate() != null) {
@@ -120,12 +126,14 @@ public class EventServiceImpl implements EventService {
                 throw new EventDateTimeException(event.getEventDate());
             }
         }
-        if (request.getStateAction().equals(StateAction.PUBLISH_EVENT)) {
-            event.setState(State.PUBLISHED);
-            event.setPublishedOn(LocalDateTime.now());
-        }
-        if (request.getStateAction().equals(StateAction.CANCEL_EVENT)) {
-            event.setState(State.CANCELED);
+        if (request.getStateAction() != null) {
+            if (request.getStateAction().equals(EventStateAction.PUBLISH_EVENT)) {
+                event.setState(EventStatus.PUBLISHED);
+                event.setPublishedOn(LocalDateTime.now());
+            }
+            if (request.getStateAction().equals(EventStateAction.REJECT_EVENT)) {
+                event.setState(EventStatus.CANCELED);
+            }
         }
 
         return EventMapper.mapToEventFullDto(eventRepository.save(EventMapper.updateEvent(event, request)));
@@ -139,8 +147,7 @@ public class EventServiceImpl implements EventService {
         Specification<Event> spec = EventSpecifications.withUsers(users)
                 .and(EventSpecifications.withStates(states))
                 .and(EventSpecifications.withCategories(categories))
-                .and(EventSpecifications.withRangeStart(rangeStart))
-                .and(EventSpecifications.withRangeEnd(rangeEnd));
+                .and(EventSpecifications.withDateRange(rangeStart, rangeEnd));
 
         Pageable pageable = PageRequest.of(from / size, size);
         List<Event> events = eventRepository.findAll(spec, pageable).getContent();
@@ -163,8 +170,7 @@ public class EventServiceImpl implements EventService {
         Specification<Event> spec = EventSpecifications.withText(text)
                 .and(EventSpecifications.withCategories(categories))
                 .and(EventSpecifications.withPaid(paid))
-                .and(EventSpecifications.withRangeStart(rangeStart))
-                .and(EventSpecifications.withRangeEnd(rangeEnd))
+                .and(EventSpecifications.withDateRange(rangeStart, rangeEnd))
                 .and(EventSpecifications.withOnlyAvailable(onlyAvailable));
 
         Pageable pageable;
@@ -174,9 +180,7 @@ public class EventServiceImpl implements EventService {
             pageable = PageRequest.of(from / size, size, Sort.by(Sort.Direction.DESC, "eventDate"));
         }
 
-        List<Event> events = eventRepository.findAll(spec, pageable).getContent()
-                .stream()
-                .peek(event -> event.setViews(event.getViews() + 1)).collect(Collectors.toList());
+        List<Event> events = eventRepository.findAll(spec, pageable).getContent();
 
         eventRepository.saveAll(events);
         return events.stream().map(EventMapper::mapToEventFullDto).toList();

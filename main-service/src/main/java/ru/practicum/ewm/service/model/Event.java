@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
+import ru.practicum.ewm.service.model.enums.EventStatus;
 
 import java.time.LocalDateTime;
 
@@ -46,7 +47,7 @@ public class Event {
     @Column(name = "request_moderation")
     private Boolean requestModeration;
     @Enumerated(EnumType.STRING)
-    private State state = State.PENDING;
+    private EventStatus state = EventStatus.PENDING;
     @Column
     private String title;
     @Column

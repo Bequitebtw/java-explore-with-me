@@ -1,6 +1,7 @@
 package ru.practicum.ewm.service.controller.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class EventController {
     }
 
     @PatchMapping("/events/{eventId}")
-    public EventFullDto editEvent(@PathVariable Integer eventId, @RequestBody UpdateEventRequest event, HttpServletRequest request) {
+    public EventFullDto editEvent(@PathVariable Integer eventId, @RequestBody @Valid UpdateEventRequest event, HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));
         return eventService.updateEvent(event, eventId);
     }

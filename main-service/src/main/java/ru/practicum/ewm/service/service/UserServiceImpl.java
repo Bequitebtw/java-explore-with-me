@@ -24,7 +24,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public List<User> findUsers(List<Integer> ids, Integer from, Integer size) {
-        return userRepository.findByIdIn(ids, PageRequest.of(from / size, size));
+        if (ids == null || ids.isEmpty()) {
+            return userRepository.findAll(PageRequest.of(from / size, size)).getContent();
+        } else {
+            return userRepository.findByIdIn(ids, PageRequest.of(from / size, size));
+        }
     }
 
     @Transactional

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.ewm.service.model.enums.RequestStatus;
 
 import java.time.LocalDateTime;
 
@@ -29,5 +30,5 @@ public class Request {
     private User requester;
     @Column
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
+    private RequestStatus requestStatus = RequestStatus.PENDING;
 }

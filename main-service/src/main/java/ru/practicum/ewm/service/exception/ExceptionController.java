@@ -37,12 +37,12 @@ public class ExceptionController {
     @ExceptionHandler(EventDateTimeException.class)
     public ResponseEntity<?> handleDataIntegrityViolation(EventDateTimeException ex) {
         ApiError error = new ApiError(
-                HttpStatus.FORBIDDEN.getReasonPhrase(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 ex.getReason(),
                 ex.getMessage()
         );
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -102,11 +102,21 @@ public class ExceptionController {
     @ExceptionHandler(IncorrectStateException.class)
     public ResponseEntity<?> handleIncorrectStateException(IncorrectStateException ex) {
         ApiError error = new ApiError(
-                HttpStatus.FORBIDDEN.getReasonPhrase(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
                 ex.getReason(),
                 ex.getMessage()
         );
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(RequestConflictException.class)
+    public ResponseEntity<?> handleIncorrectStateException(RequestConflictException ex) {
+        ApiError error = new ApiError(
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getReason(),
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(RepeatedRequestException.class)

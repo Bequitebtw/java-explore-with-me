@@ -43,7 +43,7 @@ public class EventController {
     }
 
     @PatchMapping("/{userId}/events/{eventId}")
-    public EventFullDto editUserEvent(@RequestBody EventEditRequest event, @PathVariable Integer userId, @PathVariable Integer eventId, HttpServletRequest request) {
+    public EventFullDto editUserEvent(@RequestBody @Valid EventEditRequest event, @PathVariable Integer userId, @PathVariable Integer eventId, HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));
         return eventService.editEvent(event, eventId, userId);
     }

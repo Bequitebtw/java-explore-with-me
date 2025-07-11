@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.ewm.service.annotation.StrictEmail;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +19,7 @@ public class User {
     @Column(unique = true)
     @NotNull
     @NotBlank
+    @StrictEmail
     @Size(min = 6, max = 254)
     private String email;
     @Column

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.UniqueElements;
-import ru.practicum.ewm.service.model.EventRequestStatus;
+import ru.practicum.ewm.service.model.enums.RequestStateAction;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public class EventRequestStatusUpdateRequest {
     @UniqueElements
     private List<Integer> requestIds;
     @NotNull
-    private EventRequestStatus status;
+    private RequestStateAction status;
 }

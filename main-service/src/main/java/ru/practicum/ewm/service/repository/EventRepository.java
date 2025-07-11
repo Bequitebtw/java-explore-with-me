@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.ewm.service.model.Event;
-import ru.practicum.ewm.service.model.State;
+import ru.practicum.ewm.service.model.enums.EventStatus;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer>, JpaSpecificationExecutor<Event> {
     List<Event> findByInitiatorId(Integer initiatorId, Pageable pageable);
 
-    Event findByIdAndState(Integer eventId, State state);
+    Event findByIdAndState(Integer eventId, EventStatus eventStatus);
 
     List<Event> findByIdIn(List<Integer> ids);
 

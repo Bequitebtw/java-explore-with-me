@@ -2,7 +2,9 @@ package ru.practicum.ewm.service.controller.closed;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.client.StatsClient;
 import ru.practicum.ewm.dto.RequestUtils;
@@ -21,6 +23,7 @@ public class RequestController {
     private final StatsClient statsClient;
     private final RequestService requestService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{userId}/requests")
     public RequestDto createRequest(@PathVariable Integer userId, @RequestParam Integer eventId, HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));
@@ -48,7 +51,7 @@ public class RequestController {
     @PatchMapping("/{userId}/events/{eventId}/requests")
     public EventRequestStatusUpdateResult updateEventRequestStatus(@PathVariable Integer userId,
                                                                    @PathVariable Integer eventId,
-                                                                   @RequestBody EventRequestStatusUpdateRequest update,
+                                                                   @RequestBody @Valid EventRequestStatusUpdateRequest update,
                                                                    HttpServletRequest request) {
         statsClient.saveHit(requestUtils.createHit(request));
         return requestService.updateEventRequestStatus(update, userId, eventId);

@@ -2,7 +2,7 @@ package ru.practicum.ewm.service.filters;
 
 import org.springframework.data.jpa.domain.Specification;
 import ru.practicum.ewm.service.model.Event;
-import ru.practicum.ewm.service.model.State;
+import ru.practicum.ewm.service.model.enums.EventStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +16,7 @@ public class EventSpecifications {
 
     public static Specification<Event> withStates(List<String> states) {
         return (root, query, cb) -> states == null || states.isEmpty() ? null :
-                root.get("state").in(states.stream().map(State::valueOf).toList());
+                root.get("state").in(states.stream().map(EventStatus::valueOf).toList());
     }
 
     public static Specification<Event> withCategories(List<Integer> categories) {
@@ -24,14 +24,19 @@ public class EventSpecifications {
                 root.get("category").get("id").in(categories);
     }
 
-    public static Specification<Event> withRangeStart(LocalDateTime rangeStart) {
-        return (root, query, cb) -> rangeStart == null ? null :
-                cb.greaterThanOrEqualTo(root.get("eventDate"), rangeStart);
-    }
-
-    public static Specification<Event> withRangeEnd(LocalDateTime rangeEnd) {
-        return (root, query, cb) -> rangeEnd == null ? null :
-                cb.lessThanOrEqualTo(root.get("eventDate"), rangeEnd);
+    public static Specification<Event> withDateRange(LocalDateTime rangeStart, LocalDateTime rangeEnd) {
+        return (root, query, cb) -> {
+            if (rangeStart != null && rangeEnd != null) {
+                return cb.between(root.get("eventDate"), rangeStart, rangeEnd);
+            } else if (rangeStart != null) {
+                return cb.greaterThanOrEqualTo(root.get("eventDate"), rangeStart);
+            } else if (rangeEnd != null) {
+                return cb.lessThanOrEqualTo(root.get("eventDate"), rangeEnd);
+            } else {
+                // по умолчанию — только события после текущего времени
+                return cb.greaterThanOrEqualTo(root.get("eventDate"), LocalDateTime.now());
+            }
+        };
     }
 
     public static Specification<Event> withText(String text) {
