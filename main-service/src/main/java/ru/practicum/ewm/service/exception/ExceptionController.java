@@ -57,8 +57,18 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(ClosedCommentsException.class)
+    public ResponseEntity<?> handleClosedCommentsException(ClosedCommentsException ex) {
+        ApiError error = new ApiError(
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getReason(),
+                ex.getMessage()
+        );
 
-    //Изменение события добавленного текущим пользователем. Изменение лимита участников на отрицательное значение 400
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException ex) {
         ApiError error = new ApiError(
@@ -154,8 +164,8 @@ public class ExceptionController {
     }
 
 
-    @ExceptionHandler(AccessUserException.class)
-    public ResponseEntity<?> handleAccessUserException(AccessUserException ex) {
+    @ExceptionHandler(AccessEventException.class)
+    public ResponseEntity<?> handleAccessUserException(AccessEventException ex) {
         ApiError error = new ApiError(
                 HttpStatus.CONFLICT.getReasonPhrase(),
                 ex.getReason(),
@@ -164,6 +174,15 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<?> handleCommentNotFoundException(CommentNotFoundException ex) {
+        ApiError error = new ApiError(
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getReason(),
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 
     @ExceptionHandler(RequestNotFoundException.class)
     public ResponseEntity<?> handleRequestNotFoundException(RequestNotFoundException ex) {
@@ -184,4 +203,15 @@ public class ExceptionController {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(AccessCommentException.class)
+    public ResponseEntity<?> handleAccessCommentException(AccessCommentException ex) {
+        ApiError error = new ApiError(
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getReason(),
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
 }

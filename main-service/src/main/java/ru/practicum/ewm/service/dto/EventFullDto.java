@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.ewm.service.model.Category;
+import ru.practicum.ewm.service.model.Comment;
 import ru.practicum.ewm.service.model.Location;
 import ru.practicum.ewm.service.model.enums.EventStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +30,8 @@ public class EventFullDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;
     private Boolean requestModeration;
+    private Boolean isCommentsOpen;
+    private List<Comment> comments;
     private EventStatus state;
     private String title;
     private Integer views;

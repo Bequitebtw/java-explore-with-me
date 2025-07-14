@@ -24,6 +24,7 @@ public class UpdateEventRequest {
     private Boolean paid;
     @PositiveOrZero
     private Integer participantLimit;
+    private Boolean isCommentsOpen;
     private Boolean requestModeration;
     private EventStateAction stateAction;
     @Size(min = 3, max = 120)

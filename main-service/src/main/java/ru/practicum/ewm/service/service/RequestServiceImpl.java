@@ -37,7 +37,7 @@ public class RequestServiceImpl implements RequestService {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         if (Objects.equals(event.getInitiator().getId(), userId)) {
-            throw new AccessUserException(userId, eventId);
+            throw new AccessEventException(userId, eventId);
         }
         if (!event.getState().equals(EventStatus.PUBLISHED)) {
             throw new IncorrectStateException(event.getState().toString());
@@ -88,7 +88,7 @@ public class RequestServiceImpl implements RequestService {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new AccessUserException(userId, eventId);
+            throw new AccessEventException(userId, eventId);
         }
         return requestRepository.findAllByEventId(eventId).stream().map(RequestMapper::mapToRequestDto).collect(Collectors.toList());
     }
@@ -116,7 +116,7 @@ public class RequestServiceImpl implements RequestService {
             throw new RequestConflictException("Заявка уже принята или отклонена, либо не относится к событию с id = " + eventId);
         }
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new AccessUserException(userId, eventId);
+            throw new AccessEventException(userId, eventId);
         }
 
         if (event.getConfirmedRequests() >= event.getParticipantLimit()) {

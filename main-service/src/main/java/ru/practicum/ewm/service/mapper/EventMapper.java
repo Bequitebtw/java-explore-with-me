@@ -16,6 +16,7 @@ public class EventMapper {
         event.setInitiator(user);
         event.setEventDate(eventDto.getEventDate());
         event.setLocation(eventDto.getLocation());
+        event.setIsCommentsOpen(eventDto.getIsCommentsOpen());
         event.setPaid(eventDto.getPaid());
         event.setParticipantLimit(eventDto.getParticipantLimit());
         event.setRequestModeration(eventDto.getRequestModeration());
@@ -36,6 +37,9 @@ public class EventMapper {
             } else {
                 event.setEventDate(eventDto.getEventDate());
             }
+        }
+        if (eventDto.getIsCommentsOpen() != null) {
+            event.setIsCommentsOpen(eventDto.getIsCommentsOpen());
         }
         if (eventDto.getLocation() != null) {
             event.setLocation(eventDto.getLocation());
@@ -91,6 +95,8 @@ public class EventMapper {
         eventFullDto.setPublishedOn(event.getPublishedOn());
         eventFullDto.setRequestModeration(event.getRequestModeration());
         eventFullDto.setState(event.getState());
+        eventFullDto.setIsCommentsOpen(event.getIsCommentsOpen());
+        eventFullDto.setComments(event.getComments());
         eventFullDto.setTitle(event.getTitle());
         eventFullDto.setViews(event.getViews());
         return eventFullDto;
@@ -114,6 +120,9 @@ public class EventMapper {
         }
         if (eventEditRequest.getParticipantLimit() != null) {
             event.setParticipantLimit(eventEditRequest.getParticipantLimit());
+        }
+        if (eventEditRequest.getIsCommentsOpened() != null) {
+            event.setIsCommentsOpen(eventEditRequest.getIsCommentsOpened());
         }
         if (eventEditRequest.getRequestModeration() != null) {
             event.setRequestModeration(eventEditRequest.getRequestModeration());

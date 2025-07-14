@@ -23,6 +23,7 @@ public class EventEditRequest {
     private Boolean paid;
     private EventStateActionUser stateAction;
     private Integer participantLimit;
+    private Boolean isCommentsOpened;
     private Boolean requestModeration;
     @Size(min = 3, max = 120)
     private String title;
