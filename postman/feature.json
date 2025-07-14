@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "b2e4fa71-ea6c-4844-a82f-5b55444ddb4e",
 		"name": "comments",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "42106814"
 	},
 	"item": [
@@ -23,8 +23,8 @@
 							"    return result;\r",
 							"}\r",
 							"\r",
-							"pm.environment.set('userEmail', generateRandomString(10) + \"@mail.ru\");\r",
-							"pm.environment.set('userName', generateRandomString(10));"
+							"pm.collectionVariables.set('userEmail', generateRandomString(10) + \"@mail.ru\");\r",
+							"pm.collectionVariables.set('userName', generateRandomString(10));"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -63,7 +63,16 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/admin/users"
+				"url": {
+					"raw": "{{baseUrl}}/admin/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"users"
+					]
+				}
 			},
 			"response": []
 		},
@@ -84,8 +93,8 @@
 							"    return result;\r",
 							"}\r",
 							"\r",
-							"pm.environment.set('userEmail', generateRandomString(10) + \"@mail.ru\");\r",
-							"pm.environment.set('userName', generateRandomString(10));"
+							"pm.collectionVariables.set('userEmail', generateRandomString(10) + \"@mail.ru\");\r",
+							"pm.collectionVariables.set('userName', generateRandomString(10));"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -124,7 +133,16 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/admin/users"
+				"url": {
+					"raw": "{{baseUrl}}/admin/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"users"
+					]
+				}
 			},
 			"response": []
 		},
@@ -145,8 +163,8 @@
 							"    return result;\r",
 							"}\r",
 							"\r",
-							"pm.environment.set('userEmail', generateRandomString(10) + \"@mail.ru\");\r",
-							"pm.environment.set('userName', generateRandomString(10));"
+							"pm.collectionVariables.set('userEmail', generateRandomString(10) + \"@mail.ru\");\r",
+							"pm.collectionVariables.set('userName', generateRandomString(10));"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -185,7 +203,16 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/admin/users"
+				"url": {
+					"raw": "{{baseUrl}}/admin/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"users"
+					]
+				}
 			},
 			"response": []
 		},
@@ -225,7 +252,7 @@
 							"    return result;\r",
 							"}\r",
 							"\r",
-							"pm.environment.set('categoryName', generateRandomString(10));\r",
+							"pm.collectionVariables.set('categoryName', generateRandomString(10));\r",
 							""
 						],
 						"type": "text/javascript",
@@ -245,7 +272,16 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/admin/categories"
+				"url": {
+					"raw": "{{baseUrl}}/admin/categories",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"categories"
+					]
+				}
 			},
 			"response": []
 		},
@@ -293,7 +329,19 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/users/{{userId1}}/events"
+				"url": {
+					"raw": "http://localhost:8080/users/{{userId1}}/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"{{userId1}}",
+						"events"
+					]
+				}
 			},
 			"response": []
 		},
@@ -306,7 +354,9 @@
 						"exec": [
 							"pm.test(\"Status code is 409\", function () {\r",
 							"    pm.response.to.have.status(409);\r",
-							"});"
+							"});\r",
+							"\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -336,13 +386,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/users/{{userId}}/comments?eventId={{eventId}}",
+					"raw": "{{baseUrl}}/users/{{userId3}}/comments?eventId={{eventId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"users",
-						"{{userId}}",
+						"{{userId3}}",
 						"comments"
 					],
 					"query": [
@@ -369,6 +419,13 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -383,7 +440,17 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/admin/events/{{eventId}}"
+				"url": {
+					"raw": "{{baseUrl}}/admin/events/{{eventId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"events",
+						"{{eventId}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -426,13 +493,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/users/{{userId}}/comments?eventId={{eventId}}",
+					"raw": "{{baseUrl}}/users/{{userId3}}/comments?eventId={{eventId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"users",
-						"{{userId}}",
+						"{{userId3}}",
 						"comments"
 					],
 					"query": [
@@ -459,6 +526,13 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -473,7 +547,17 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/admin/events/{{eventId}}"
+				"url": {
+					"raw": "{{baseUrl}}/admin/events/{{eventId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"events",
+						"{{eventId}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -519,7 +603,7 @@
 							"    return result;\r",
 							"}\r",
 							"\r",
-							"pm.environment.set('comment1Name', generateRandomString(10));\r",
+							"pm.collectionVariables.set('comment1Name', generateRandomString(10));\r",
 							"\r",
 							"\r",
 							""
@@ -607,7 +691,7 @@
 							"    return result;\r",
 							"}\r",
 							"\r",
-							"pm.environment.set('comment2Name', generateRandomString(10));\r",
+							"pm.collectionVariables.set('comment2Name', generateRandomString(10));\r",
 							"\r",
 							""
 						],
@@ -690,7 +774,7 @@
 							"    return result;\r",
 							"}\r",
 							"\r",
-							"pm.environment.set('comment3Name', generateRandomString(10));\r",
+							"pm.collectionVariables.set('comment3Name', generateRandomString(10));\r",
 							"\r",
 							""
 						],
@@ -786,6 +870,16 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
 				}
 			],
 			"protocolProfileBehavior": {
@@ -798,7 +892,17 @@
 					"mode": "raw",
 					"raw": "{\r\n  \"email\": \"222@mail.ru\",\r\n  \"name\": \"Дмитрий\"\r\n}"
 				},
-				"url": "{{baseUrl}}/admin/comments/{{commentId2}}"
+				"url": {
+					"raw": "{{baseUrl}}/admin/comments/{{commentId2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"comments",
+						"{{commentId2}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -826,12 +930,30 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{baseUrl}}/admin/events/{{eventId}}/comments"
+				"url": {
+					"raw": "{{baseUrl}}/admin/events/{{eventId}}/comments",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"events",
+						"{{eventId}}",
+						"comments"
+					]
+				}
 			},
 			"response": []
 		},
@@ -850,6 +972,13 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -859,7 +988,18 @@
 					"mode": "raw",
 					"raw": "{\r\n  \"name\": \"{{userName}}\",\r\n  \"email\": \"{{userEmail}}\"\r\n}"
 				},
-				"url": "{{baseUrl}}/users/{{userId3}}/comments/{{commentId2}}"
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId3}}/comments/{{commentId2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId3}}",
+						"comments",
+						"{{commentId2}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -897,7 +1037,18 @@
 					"mode": "raw",
 					"raw": "{\r\n  \"name\": \"{{userName}}\",\r\n  \"email\": \"{{userEmail}}\"\r\n}"
 				},
-				"url": "{{baseUrl}}/users/{{userId1}}/comments/{{commentId3}}"
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId1}}/comments/{{commentId3}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId1}}",
+						"comments",
+						"{{commentId3}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -935,7 +1086,18 @@
 					"mode": "raw",
 					"raw": "{\r\n  \"name\": \"{{userName}}\",\r\n  \"email\": \"{{userEmail}}\"\r\n}"
 				},
-				"url": "{{baseUrl}}/users/{{userId2}}/comments/{{commentId2}}"
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId2}}/comments/{{commentId2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId2}}",
+						"comments",
+						"{{commentId2}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -954,6 +1116,13 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -968,7 +1137,18 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/users/{{userId3}}/comments/{{commentId1}}"
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId3}}/comments/{{commentId1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId3}}",
+						"comments",
+						"{{commentId1}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1034,7 +1214,18 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/users/{{userId1}}/comments/{{commentId1}}"
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId1}}/comments/{{commentId1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId1}}",
+						"comments",
+						"{{commentId1}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -1053,6 +1244,13 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -1067,7 +1265,17 @@
 						}
 					}
 				},
-				"url": "{{baseUrl}}/admin/comments/{{commentId1}}"
+				"url": {
+					"raw": "{{baseUrl}}/admin/comments/{{commentId1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"comments",
+						"{{commentId1}}"
+					]
+				}
 			},
 			"response": []
 		}
@@ -1097,32 +1305,8 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "userId",
-			"value": ""
-		},
-		{
-			"key": "categoryId",
-			"value": ""
-		},
-		{
-			"key": "eventId",
-			"value": ""
-		},
-		{
-			"key": "userName",
-			"value": "",
-			"type": "string",
-			"disabled": true
-		},
-		{
-			"key": "userEmail",
-			"value": "",
-			"type": "string",
-			"disabled": true
+			"value": "localhost:8080",
+			"type": "default"
 		},
 		{
 			"key": "userEmail",
@@ -1145,7 +1329,27 @@
 			"value": ""
 		},
 		{
+			"key": "categoryName",
+			"value": ""
+		},
+		{
+			"key": "categoryId",
+			"value": ""
+		},
+		{
+			"key": "eventId",
+			"value": ""
+		},
+		{
+			"key": "comment1Name",
+			"value": ""
+		},
+		{
 			"key": "commentId1",
+			"value": ""
+		},
+		{
+			"key": "comment2Name",
 			"value": ""
 		},
 		{
@@ -1169,11 +1373,11 @@
 			"value": ""
 		},
 		{
-			"key": "commentId3",
+			"key": "comment3Name",
 			"value": ""
 		},
 		{
-			"key": "commentEditName",
+			"key": "commentId3",
 			"value": ""
 		},
 		{
