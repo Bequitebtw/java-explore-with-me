@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class AccessUserException extends RuntimeException {
+public class AccessEventException extends RuntimeException {
     private final Integer userId;
     private final Integer eventId;
-    private final String reason = "No access to update";
+    private final String reason = "No access to Object";
 
     @Override
     public String getMessage() {

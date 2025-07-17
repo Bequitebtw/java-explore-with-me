@@ -32,6 +32,7 @@ public class NewEventDto {
     private Boolean paid = false;
     @PositiveOrZero
     private Integer participantLimit = 0;
+    private Boolean isCommentsOpen = true;
     private Boolean requestModeration = true;
     @Size(min = 3, max = 120)
     @NotNull

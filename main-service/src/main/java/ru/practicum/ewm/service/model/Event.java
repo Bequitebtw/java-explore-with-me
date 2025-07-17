@@ -7,6 +7,8 @@ import lombok.Data;
 import ru.practicum.ewm.service.model.enums.EventStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -48,6 +50,10 @@ public class Event {
     private Boolean requestModeration;
     @Enumerated(EnumType.STRING)
     private EventStatus state = EventStatus.PENDING;
+    @Column
+    private Boolean isCommentsOpen = true;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
     @Column
     private String title;
     @Column
